@@ -254,3 +254,63 @@ public:
 ```
 核心思想是通过遍历找到要移除节点的前一个节点curr，使其curr->next指向curr->next->next  
 快慢指针+dummy head
+#### [20. 有效的括号](https://leetcode.cn/problems/valid-parentheses/)
+```cpp
+class Solution {
+public:
+  bool isValid(string s) {
+    stack<char> stk;
+    unordered_map<char, char> m = {{'(', ')'}, {'{', '}'}, {'[', ']'}};
+    for (const auto &ch : s) {
+      if (m.find(ch) != m.end()) {
+        stk.push(m[ch]);
+      } else {
+        if (stk.empty() || stk.top() != ch) {
+          return false;
+        }
+        stk.pop();
+      }
+    }
+    return stk.empty();
+  }
+};
+```
+#### [21. 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/)
+```cpp
+class Solution {
+public:
+  ListNode *mergeTwoLists(ListNode *list1, ListNode *list2) {
+    // dummy head
+    ListNode *head = new ListNode(0);
+    ListNode *prev = head;
+    while (list1 && list2) {
+      if (list1->val < list2->val) {
+        prev->next = list1;
+        list1 = list1->next;
+      } else {
+        prev->next = list2;
+        list2 = list2->next;
+      }
+      prev = prev->next;
+    }
+    if (list1) {
+      prev->next = list1;
+    }
+    if (list2) {
+      prev->next = list2;
+    }
+    return head->next;
+  }
+};
+```
+#### [22. 括号生成](https://leetcode.cn/problems/generate-parentheses/)
+```cpp
+
+```
+#### [23. 合并K个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists/)
+#### [31. 下一个排列](https://leetcode.cn/problems/next-permutation/)
+#### [32. 最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses/)
+#### [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
+#### [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+#### [39. 组合总和](https://leetcode.cn/problems/combination-sum/)
+#### [42. 接雨水](https://leetcode.cn/problems/trapping-rain-water/)
