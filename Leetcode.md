@@ -305,12 +305,116 @@ public:
 ```
 #### [22. 括号生成](https://leetcode.cn/problems/generate-parentheses/)
 ```cpp
+class Solution {
+  string str;
+  vector<string> res;
 
+public:
+  vector<string> generateParenthesis(int n) {
+    bt(str, n, 0, 0);
+    return res;
+  }
+  void bt(string str, int n, int open, int close) {
+    if (open == n && close == n) {
+      res.push_back(str);
+      return;
+    }
+    if (open < n) {
+      bt(str + '(', n, open + 1, close);
+    }
+    if (close < open) {
+      bt(str + ')', n, open, close + 1);
+    }
+  }
+};
 ```
+回溯法
 #### [23. 合并K个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists/)
+```cpp
+//  1. 
+// struct Comparator
+// {
+//   bool operator()(const Record& lhs, const Record& rhs)
+//   {
+//     return lhs.count>rhs.count;
+//   }
+// };
+// 1.
+// class Compare{
+// public:
+//     bool operator() (ListNode * lhs, ListNode * rhs)
+//     {
+//         return lhs->val>rhs->val;
+//     }
+//     // https://en.cppreference.com/w/cpp/utility/functional/greater
+// };
+class Solution {
+public:
+    // 2.
+    // static bool compare(ListNode * lhs, ListNode * rhs) {
+    //     return lhs->val > rhs->val;
+    // }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode *dummy = new ListNode(-1);
+        ListNode *curr = dummy;
+        // priority_queue<ListNode *, vector<ListNode *>, Compare> pq;
+        
+        
+        // priority_queue<ListNode *, vector<ListNode *>, decltype(&compare)> pq(compare);
+        // 3.
+        auto compare = [](ListNode * lhs, ListNode * rhs) { 
+            return lhs->val > rhs->val;
+        };
+        priority_queue<ListNode *, vector<ListNode *>, decltype(compare)> pq(compare);
+        for(int i = 0; i < lists.size(); i++) {
+            if(lists[i] != nullptr) {
+                pq.push(lists[i]);
+            }
+        }
+        while(!pq.empty()) {
+            ListNode *node = pq.top();
+            pq.pop();
+            curr->next = node;
+            curr = curr->next;
+            if(node->next != nullptr) {
+                pq.push(node->next);
+            }
+        }
+        return dummy->next;
+    }
+};
+```
+优先队列  
+cmp的几种写法:  
+- struct/class  
+- 静态函数，不推荐  
+- lambda  
 #### [31. 下一个排列](https://leetcode.cn/problems/next-permutation/)
 #### [32. 最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses/)
 #### [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
 #### [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
 #### [39. 组合总和](https://leetcode.cn/problems/combination-sum/)
 #### [42. 接雨水](https://leetcode.cn/problems/trapping-rain-water/)
+```cpp
+class Solution {
+public:
+  int trap(vector<int> &height) {
+    int res = 0;
+    int leftMax = 0, rightMax = 0;
+    int i = 0, j = height.size() - 1;
+    while (i < j) {
+      leftMax = max(leftMax, height[i]);
+      rightMax = max(rightMax, height[j]);
+      if (leftMax < rightMax) {
+        res += (leftMax - height[i]);
+        i++;
+      } else {
+        res += (rightMax - height[j]);
+        j--;
+      }
+    }
+    return res;
+  }
+};
+```
+双指针
