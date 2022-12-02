@@ -391,9 +391,133 @@ cmp的几种写法:
 - lambda  
 #### [31. 下一个排列](https://leetcode.cn/problems/next-permutation/)
 #### [32. 最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses/)
+```cpp
+class Solution {
+public:
+  int longestValidParentheses(string s) {
+    int ans = 0;
+    // 栈内存左括号的索引
+    stack<int> st;
+    for (int i = 0, start = -1; i < s.size(); i++) {
+      if (s[i] == '(') {
+        st.push(i);
+      } else {
+        if (!st.empty()) {
+          st.pop();
+          if (!st.empty()) {
+            ans = max(ans, i - st.top());
+          } else {
+            ans = max(ans, i - start);
+          }
+        } else {
+          // 此位置表示右括号的数量多余左括号的数量
+          start = i;
+        }
+      }
+    }
+    return ans;
+  }
+};
+```
 #### [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
+```cpp
+class Solution {
+public:
+  int search(vector<int> &nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (nums[mid] == target) {
+        return mid;
+      }
+      if (nums[left] <= nums[mid]) {
+        if (target < nums[mid] && target >= nums[left]) {
+          right = mid - 1;
+        } else {
+          left = mid + 1;
+        }
+      } else {
+        if (target > nums[mid] && target <= nums[right]) {
+          left = mid + 1;
+        } else {
+          right = mid - 1;
+        }
+      }
+    }
+    return -1;
+  }
+};
+```
+二分查找，类似题目81，153，154  
+33/81:
+![33/81](images/1.png)
+153/154:
+![153/154](images/2.png)
 #### [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+```cpp
+class Solution {
+public:
+  vector<int> searchRange(vector<int> &nums, int target) {
+    return {lower_bound(nums, target), upper_bound(nums, target)};
+  }
+
+  int upper_bound(vector<int> &nums, int target) {
+    int low = 0, high = nums.size() - 1;
+    while (low < high) {
+      // 取上边界，防止死循环
+      int mid = low + (high - low + 1) / 2;
+      if (nums[mid] <= target) {
+        low = mid;
+      } else {
+        high = mid - 1;
+      }
+    }
+    // 确保nums[low]不下溢
+    return nums.size() > 0 && nums[low] == target ? low : -1;
+  }
+  int lower_bound(vector<int> &nums, int target) {
+    int low = 0, high = nums.size() - 1;
+    while (low < high) {
+      // 取下边界，防止死循环
+      int mid = low + (high - low) / 2;
+      if (nums[mid] >= target) {
+        high = mid;
+      } else {
+        low = mid + 1;
+      }
+    }
+    return nums.size() > 0 && nums[low] == target ? low : -1;
+  }
+};
+```
 #### [39. 组合总和](https://leetcode.cn/problems/combination-sum/)
+```cpp
+class Solution {
+  vector<vector<int>> res;
+  vector<int> templist;
+
+public:
+  vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
+    sort(candidates.begin(), candidates.end());
+    bt(candidates, target, 0);
+    return res;
+  }
+
+  void bt(vector<int> &candidates, int remain, int start) {
+    if (remain < 0) {
+      return;
+    } else if (remain == 0) {
+      res.push_back(templist);
+    }
+    for (int i = start; i < candidates.size(); i++) {
+      templist.push_back(candidates[i]);
+      bt(candidates, remain - candidates[i], i);
+      templist.pop_back();
+    }
+  }
+};
+```
+回溯法
 #### [42. 接雨水](https://leetcode.cn/problems/trapping-rain-water/)
 ```cpp
 class Solution {
