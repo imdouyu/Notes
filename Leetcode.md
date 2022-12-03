@@ -449,9 +449,9 @@ public:
 };
 ```
 二分查找，类似题目81，153，154  
-33/81:
-![33/81](images/1.png)
-153/154:
+33/81:  
+![33/81](images/1.png)   
+153/154:   
 ![153/154](images/2.png)
 #### [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
 ```cpp
