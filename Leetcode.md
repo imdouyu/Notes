@@ -385,7 +385,7 @@ public:
 };
 ```
 优先队列  
-cmp的几种写法:  
+cmp的几种写法:
 - struct/class  
 - 静态函数，不推荐  
 - lambda  
@@ -542,3 +542,75 @@ public:
 };
 ```
 双指针
+#### [46. 全排列 - 力扣（LeetCode）](https://leetcode.cn/problems/permutations/)
+```cpp
+class Solution {
+  vector<vector<int>> res;
+  vector<int> used;
+  vector<int> perm;
+
+public:
+  vector<vector<int>> permute(vector<int> &nums) {
+    int size = nums.size();
+    used = vector<int>(size, 0);
+    bt(nums);
+    return res;
+  }
+
+  void bt(vector<int> &nums) {
+    if (perm.size() == nums.size()) {
+      res.push_back(perm);
+      return;
+    }
+    for (int i = 0; i < nums.size(); i++) {
+      if (!used[i]) {
+        used[i] = 1;
+        perm.push_back(nums[i]);
+        bt(nums);
+        used[i] = 0;
+        perm.pop_back();
+      }
+    }
+  }
+};
+```
+回溯法
+回溯法的结题技巧：
+#### [48. 旋转图像 - 力扣（LeetCode）](https://leetcode.cn/problems/rotate-image/)
+```cpp
+class Solution {
+public:
+  void rotate(vector<vector<int>> &matrix) {
+    int m = matrix.size();
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < i; j++) {
+        swap(matrix[i][j], matrix[j][i]);
+      }
+    }
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < m / 2; j++) {
+        swap(matrix[i][j], matrix[i][m - j - 1]);
+      }
+    }
+  }
+};
+```
+对角线翻转，左右翻转
+#### [49. 字母异位词分组 - 力扣（LeetCode）](https://leetcode.cn/problems/group-anagrams/)
+#### [53. 最大子数组和 - 力扣（LeetCode）](https://leetcode.cn/problems/maximum-subarray/)
+#### [55. 跳跃游戏 - 力扣（LeetCode）](https://leetcode.cn/problems/jump-game/)
+#### [56. 合并区间 - 力扣（LeetCode）](https://leetcode.cn/problems/merge-intervals/)
+#### [62. 不同路径 - 力扣（LeetCode）](https://leetcode.cn/problems/unique-paths/)
+#### [64. 最小路径和 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-path-sum/)
+#### [70. 爬楼梯 - 力扣（LeetCode）](https://leetcode.cn/problems/climbing-stairs/)
+#### [72. 编辑距离 - 力扣（LeetCode）](https://leetcode.cn/problems/edit-distance/)
+#### [75. 颜色分类 - 力扣（LeetCode）](https://leetcode.cn/problems/sort-colors/)
+#### [76. 最小覆盖子串 - 力扣（LeetCode）](https://leetcode.cn/problems/minimum-window-substring/)
+#### [78. 子集 - 力扣（LeetCode）](https://leetcode.cn/problems/subsets/)
+#### [79. 单词搜索 - 力扣（LeetCode）](https://leetcode.cn/problems/word-search/)
+#### [84. 柱状图中最大的矩形 - 力扣（LeetCode）](https://leetcode.cn/problems/largest-rectangle-in-histogram/)
+#### [85. 最大矩形 - 力扣（LeetCode）](https://leetcode.cn/problems/maximal-rectangle/)
+#### [94. 二叉树的中序遍历 - 力扣（LeetCode）](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
+#### [96. 不同的二叉搜索树 - 力扣（LeetCode）](https://leetcode.cn/problems/unique-binary-search-trees/)
+#### [98. 验证二叉搜索树 - 力扣（LeetCode）](https://leetcode.cn/problems/validate-binary-search-tree/)
+#### [101. 对称二叉树 - 力扣（LeetCode）](https://leetcode.cn/problems/symmetric-tree/)
